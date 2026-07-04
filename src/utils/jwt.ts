@@ -9,11 +9,19 @@ export interface JwtPayload {
 }
 
 export const signToken = (payload: JwtPayload): string => {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN as unknown as number,
-  });
+  try {
+    return jwt.sign(payload, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN as unknown as number,
+    });
+  } catch (err) {
+    throw new Error(`Failed to sign token: ${(err as Error).message}`);
+  }
 };
 
 export const verifyToken = (token: string): JwtPayload => {
-  return jwt.verify(token, JWT_SECRET) as JwtPayload;
+  try {
+    return jwt.verify(token, JWT_SECRET) as JwtPayload;
+  } catch (err) {
+    throw new Error(`Invalid or expired token: ${(err as Error).message}`);
+  }
 };
