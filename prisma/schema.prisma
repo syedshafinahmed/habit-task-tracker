@@ -41,7 +41,7 @@ model Project {
   createdAt   DateTime  @default(now())
   deletedAt   DateTime?
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id]) // foreign key
   tasks       Task[]
 }
 
@@ -55,9 +55,9 @@ model Task {
   createdAt   DateTime   @default(now())
   deletedAt   DateTime?
   projectId   String
-  project     Project    @relation(fields: [projectId], references: [id])
+  project     Project    @relation(fields: [projectId], references: [id]) // foreign key
   parentId    String?
-  parent      Task?      @relation("SubTasks", fields: [parentId], references: [id])
+  parent      Task?      @relation("SubTasks", fields: [parentId], references: [id]) // self-referencing relation (foreign key)
   subtasks    Task[]     @relation("SubTasks")
   tags        TaskTag[]
 
@@ -73,10 +73,10 @@ model Tag {
 model TaskTag {
   taskId String
   tagId  String
-  task   Task   @relation(fields: [taskId], references: [id])
-  tag    Tag    @relation(fields: [tagId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id]) // foreign key
+  tag    Tag    @relation(fields: [tagId], references: [id]) // foreign key
 
-  @@id([taskId, tagId])
+  @@id([taskId, tagId]) // composite primary key (table-level attribute, unique constraint)
 }
 
 model Habit {
@@ -84,7 +84,7 @@ model Habit {
   name      String
   createdAt DateTime   @default(now())
   userId    String
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id]) // foreign key
   logs      HabitLog[]
 }
 
@@ -93,7 +93,7 @@ model HabitLog {
   date    DateTime
   done    Boolean  @default(true)
   habitId String
-  habit   Habit    @relation(fields: [habitId], references: [id])
+  habit   Habit    @relation(fields: [habitId], references: [id]) // foreign key
 
-  @@unique([habitId, date])
+  @@unique([habitId, date]) // composite primary key (table-level attribute, unique constraint)
 }

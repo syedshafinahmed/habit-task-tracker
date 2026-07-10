@@ -8,9 +8,9 @@ export interface AppError extends Error {
 
 const errorMiddleware = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ): void => {
   // Zod validation errors
   if (err instanceof ZodError) {
@@ -43,7 +43,11 @@ const errorMiddleware = (
     }
   }
 
-  // Generic / custom errors
+  // Log unexpected errors in development
+  if (process.env.NODE_ENV === "development") {
+    console.error("Unhandled error:", err);
+  }
+
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
