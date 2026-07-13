@@ -1,0 +1,85 @@
+import prisma from "../../config/db";
+
+export interface CreateProjectInput {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateProjectInput {
+  name?: string;
+  description?: string;
+}
+
+export const createProjectService = async (
+  userId: string,
+  input: CreateProjectInput,
+) => {
+  const project = await prisma.project.create({
+    data: {
+      ...input,
+      userId,
+    },
+  });
+  return project;
+};
+
+export const getProjectsService = async (userId: string) => {
+  const projects = await prisma.project.findMany({
+    where: {
+      userId,
+      deletedAt: null,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return projects;
+};
+
+export const getProjectByIdService = async (
+  userId: string,
+  projectId: string,
+) => {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+      deletedAt: null,
+    },
+  });
+
+  if (!project) {
+    const error: any = new Error("Project not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return project;
+};
+
+export const updateProjectService = async (
+  userId: string,
+  projectId: string,
+  input: UpdateProjectInput,
+) => {
+  await getProjectByIdService(userId, projectId);
+
+  const project = await prisma.project.update({
+    where: { id: projectId },
+    data: input,
+  });
+
+  return project;
+};
+
+export const deleteProjectService = async (
+  userId: string,
+  projectId: string,
+) => {
+  await getProjectByIdService(userId, projectId);
+
+  await prisma.project.update({
+    where: { id: projectId },
+    data: { deletedAt: new Date() },
+  });
+};

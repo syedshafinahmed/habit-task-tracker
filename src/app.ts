@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
+import projectRoutes from "./modules/project/project.routes";
 import errorMiddleware from "./middlewares/error.middleware";
 
 const app: Application = express();
@@ -20,6 +21,7 @@ app.get("/health", (req: Request, res: Response) => {
 
 // Routes 
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
 
 
 // Error middleware 
