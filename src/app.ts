@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import authRoutes from "./modules/auth/auth.routes";
 import errorMiddleware from "./middlewares/error.middleware";
 
 const app: Application = express();
@@ -17,13 +18,11 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-// Routes will be mounted here in later phases
-// app.use("/api/auth", authRoutes);
-// app.use("/api/projects", projectRoutes);
-// app.use("/api/tasks", taskRoutes);
-// app.use("/api/habits", habitRoutes);
+// Routes 
+app.use("/api/auth", authRoutes);
 
-// Error middleware — must be last
+
+// Error middleware 
 app.use(errorMiddleware);
 
 export default app;
