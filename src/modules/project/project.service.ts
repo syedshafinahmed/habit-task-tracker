@@ -83,3 +83,39 @@ export const deleteProjectService = async (
     data: { deletedAt: new Date() },
   });
 };
+
+export const getProjectStatsService = async (
+  userId: string,
+  projectId: string,
+) => {
+  // verify project belongs to user
+  await getProjectByIdService(userId, projectId);
+
+  const [statusStats, priorityStats, total] = await Promise.all([
+    prisma.task.groupBy({
+      by: ["status"],
+      where: { projectId, deletedAt: null },
+      _count: { status: true },
+    }),
+    prisma.task.groupBy({
+      by: ["priority"],
+      where: { projectId, deletedAt: null },
+      _count: { priority: true },
+    }),
+    prisma.task.count({
+      where: { projectId, deletedAt: null },
+    }),
+  ]);
+
+  return {
+    total,
+    byStatus: statusStats.map((s) => ({
+      status: s.status,
+      count: s._count.status,
+    })),
+    byPriority: priorityStats.map((p) => ({
+      priority: p.priority,
+      count: p._count.priority,
+    })),
+  };
+};

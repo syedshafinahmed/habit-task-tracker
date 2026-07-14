@@ -7,6 +7,7 @@ import {
   getProjectByIdService,
   updateProjectService,
   deleteProjectService,
+  getProjectStatsService,
 } from "./project.service";
 
 const createProjectSchema = z.object({
@@ -60,7 +61,10 @@ export const getProjectById = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const project = await getProjectByIdService(req.userId!, req.params.id as string);
+    const project = await getProjectByIdService(
+      req.userId!,
+      req.params.id as string,
+    );
     res.status(200).json({
       success: true,
       message: "Project fetched successfully",
@@ -103,6 +107,25 @@ export const deleteProject = async (
     res.status(200).json({
       success: true,
       message: "Project deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+export const getProjectStats = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const stats = await getProjectStatsService(
+      req.userId!,
+      req.params.id as string,
+    );
+    res.status(200).json({
+      success: true,
+      message: "Project stats fetched successfully",
+      data: stats,
     });
   } catch (err) {
     next(err);
