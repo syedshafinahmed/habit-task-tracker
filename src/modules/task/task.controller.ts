@@ -9,6 +9,7 @@ import {
   updateTaskService,
   deleteTaskService,
   createSubtaskService,
+  getAllTasksService,
 } from "./task.service";
 
 const createTaskSchema = z.object({
@@ -151,6 +152,31 @@ export const createSubtask = async (
       success: true,
       message: "Subtask created successfully",
       data: subtask,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getAllTasks = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+
+    const result = await getAllTasksService(req.userId!, {
+      status: req.query.status as TaskStatus | undefined,
+      priority: req.query.priority as Priority | undefined,
+      page: isNaN(page) || page < 1 ? 1 : page,
+      limit: isNaN(limit) || limit < 1 ? 10 : limit,
+    });
+    res.status(200).json({
+      success: true,
+      message: "All tasks fetched successfully",
+      data: result,
     });
   } catch (err) {
     next(err);

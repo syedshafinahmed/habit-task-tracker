@@ -194,3 +194,48 @@ export const createSubtaskService = async (
     parentId,
   });
 };
+
+export const getAllTasksService = async (
+  userId: string,
+  query: Omit<GetTasksQuery, "projectId">,
+) => {
+  const { status, priority, page = 1, limit = 10 } = query;
+  const skip = (page - 1) * limit;
+
+  const where = {
+    deletedAt: null,
+    project: { userId },
+    ...(status && { status }),
+    ...(priority && { priority }),
+  };
+
+  const [tasks, total] = await Promise.all([
+    prisma.task.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: { createdAt: "desc" },
+      include: {
+        tags: { include: { tag: true } },
+        subtasks: {
+          where: { deletedAt: null },
+          select: { id: true, title: true, status: true },
+        },
+        project: {
+          select: { id: true, name: true },
+        },
+      },
+    }),
+    prisma.task.count({ where }),
+  ]);
+
+  return {
+    tasks,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};

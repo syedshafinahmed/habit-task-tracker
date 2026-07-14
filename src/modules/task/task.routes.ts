@@ -3,6 +3,7 @@ import authMiddleware from "../../middlewares/auth.middleware";
 import {
   createTask,
   getTasks,
+  getAllTasks,
   getTaskById,
   updateTask,
   deleteTask,
@@ -21,3 +22,8 @@ router.delete("/:taskId", deleteTask);
 router.post("/:taskId/subtasks", createSubtask);
 
 export default router;
+
+// Standalone router for /api/tasks
+export const standaloneTaskRouter = Router();
+standaloneTaskRouter.use(authMiddleware);
+standaloneTaskRouter.get("/", getAllTasks);
