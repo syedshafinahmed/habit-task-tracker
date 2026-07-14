@@ -27,6 +27,13 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/projects/:projectId/tasks", taskRoutes);
 app.use("/api/habits", habitRoutes);
 
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.method} ${req.originalUrl} not found`,
+  });
+});
+
 // Error middleware
 app.use(errorMiddleware);
 

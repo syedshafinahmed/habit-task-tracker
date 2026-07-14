@@ -28,9 +28,10 @@ const errorMiddleware = (
   // Prisma known errors
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2002") {
+      const fields = (err.meta?.target as string[])?.join(", ");
       res.status(409).json({
         success: false,
-        message: "A record with this value already exists",
+        message: `Duplicate entry on field(s): ${fields}`,
       });
       return;
     }
@@ -41,6 +42,14 @@ const errorMiddleware = (
       });
       return;
     }
+  }
+
+  if (err instanceof Prisma.PrismaClientValidationError) {
+    res.status(400).json({
+      success: false,
+      message: "Invalid data provided",
+    });
+    return;
   }
 
   // Log unexpected errors in development

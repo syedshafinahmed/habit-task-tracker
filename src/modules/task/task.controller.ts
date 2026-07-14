@@ -57,12 +57,15 @@ export const getTasks = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+
     const result = await getTasksService({
       projectId: req.params.projectId as string,
       status: req.query.status as TaskStatus | undefined,
       priority: req.query.priority as Priority | undefined,
-      page: req.query.page ? Number(req.query.page) : 1,
-      limit: req.query.limit ? Number(req.query.limit) : 10,
+      page: isNaN(page) || page < 1 ? 1 : page,
+      limit: isNaN(limit) || limit < 1 ? 10 : limit,
     });
     res.status(200).json({
       success: true,
