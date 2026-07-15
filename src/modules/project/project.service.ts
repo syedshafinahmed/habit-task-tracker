@@ -1,4 +1,5 @@
 import prisma from "../../config/db";
+import { TaskStatus, Priority } from "../../generated/prisma";
 
 export interface CreateProjectInput {
   name: string;
@@ -109,11 +110,11 @@ export const getProjectStatsService = async (
 
   return {
     total,
-    byStatus: statusStats.map((s) => ({
+    byStatus: statusStats.map((s: { status: TaskStatus; _count: { status: number } }) => ({
       status: s.status,
       count: s._count.status,
     })),
-    byPriority: priorityStats.map((p) => ({
+    byPriority: priorityStats.map((p: { priority: Priority; _count: { priority: number } }) => ({
       priority: p.priority,
       count: p._count.priority,
     })),
