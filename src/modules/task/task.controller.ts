@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { z } from "zod";
 import { AuthRequest } from "../../middlewares/auth.middleware";
-import { TaskStatus, Priority } from "../../generated/prisma";
+import { TaskStatus, Priority } from "@prisma/client";
 import {
   createTaskService,
   getTasksService,

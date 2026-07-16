@@ -67,7 +67,7 @@
 // export default errorMiddleware;
 
 import { Request, Response, NextFunction } from "express";
-import { Prisma } from "../generated/prisma";
+import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
 
 export interface AppError extends Error {
