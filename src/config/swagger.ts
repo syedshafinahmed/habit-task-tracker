@@ -17,6 +17,10 @@ const options: swaggerJsdoc.Options = {
         url: "http://localhost:5000",
         description: "Local development server",
       },
+      {
+        url: "https://habit-task-tracker.onrender.com",
+        description: "Production Render server",
+      },
     ],
     components: {
       securitySchemes: {
