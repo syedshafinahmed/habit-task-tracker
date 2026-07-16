@@ -4,16 +4,27 @@
 
   **Your All-in-One Productivity Backend — Track Habits & Manage Projects**
 
-  [![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+  [![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
   [![Express](https://img.shields.io/badge/Express-5.2.1-000000?style=flat-square&logo=express)](https://expressjs.com/)
   [![Prisma](https://img.shields.io/badge/Prisma-6.14.0-2D3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-4169E1?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
   [![Zod](https://img.shields.io/badge/Zod-4.4.3-3068B7?style=flat-square&logo=zod)](https://zod.dev/)
   [![JWT](https://img.shields.io/badge/JWT-9.0.3-D63AFF?style=flat-square&logo=jsonwebtokens)](https://jwt.io/)
+  [![Render](https://img.shields.io/badge/Render-Deployment-000000?style=flat-square&logo=render)](https://api-movie-watchlist.onrender.com)
   [![Swagger](https://img.shields.io/badge/Swagger-UI-85EA2D?style=flat-square&logo=swagger)](http://localhost:5000/api-docs)
 
 </div>
+
+---
+
+## 🌐 Live Demo
+
+ 
+### 🔗 <a href="https://habit-task-tracker.onrender.com">Base URL</a> &nbsp;  &nbsp; 📄 <a href="https://habit-task-tracker.onrender.com/api-docs">Swagger Docs</a>
+
+> [!NOTE]
+> The service is hosted on Render's free tier. It may take **a few seconds** to wake up on the first request after a period of inactivity.
 
 ---
 
@@ -292,5 +303,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ---
 
 <div align="center">
-  <p>Built to keep your habits consistent and your tasks organized 📋✅</p>
+  <p>Built to keep your habits consistent and your tasks organized 📋</p>
 </div>
