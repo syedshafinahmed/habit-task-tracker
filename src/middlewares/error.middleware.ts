@@ -93,15 +93,16 @@ const errorMiddleware = (
   }
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
-    if (err.code === "P2002") {
-      const fields = (err.meta?.target as string[])?.join(", ");
+    const prismaErr = err as Prisma.PrismaClientKnownRequestError;
+    if (prismaErr.code === "P2002") {
+      const fields = (prismaErr.meta?.target as string[])?.join(", ");
       res.status(409).json({
         success: false,
         message: `Duplicate entry on field(s): ${fields}`,
       });
       return;
     }
-    if (err.code === "P2025") {
+    if (prismaErr.code === "P2025") {
       res.status(404).json({
         success: false,
         message: "Record not found",
