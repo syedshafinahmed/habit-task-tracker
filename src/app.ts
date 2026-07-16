@@ -1,5 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger";
 import authRoutes from "./modules/auth/auth.routes";
 import projectRoutes from "./modules/project/project.routes";
 import taskRoutes, { standaloneTaskRouter } from "./modules/task/task.routes";
@@ -20,7 +22,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Habit Task Tracker",
     version: "1.0.0",
     status: "running",
-    documentation: "coming-soon",
+    documentation: "/api-docs",
   });
 });
 
@@ -31,6 +33,9 @@ app.get("/health", (req: Request, res: Response) => {
     message: "Server is running",
   });
 });
+
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use("/api/auth", authRoutes);
