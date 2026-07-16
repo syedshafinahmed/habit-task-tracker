@@ -22,7 +22,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Habit Task Tracker",
     version: "1.0.0",
     status: "running",
-    documentation: "/api-docs",
+    documentation: "https://habit-task-tracker.onrender.com/api-docs",
   });
 });
 
